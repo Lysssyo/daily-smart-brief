@@ -1,0 +1,12 @@
+{
+    "github": {
+        "subject": "Github Trending",
+        "sender": "Gemini",
+        "model": "gemini-3-flash-preview"
+    },
+    "macro": {
+        "subject": "What's happening around the world?",
+        "sender": "Grok",
+        "model": "grok-4-1-fast"
+    }
+}

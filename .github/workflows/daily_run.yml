@@ -1,0 +1,51 @@
+name: Daily Smart Brief
+on:
+  schedule:
+    # 北京时间 13:40 = UTC 05:40
+    - cron: '40 5 * * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  run-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # ---------------------------------------------------------
+      # Task 1: GitHub Tech Brief (Independent Retry)
+      # ---------------------------------------------------------
+      - name: Run GitHub Brief (Retry on Failure)
+        uses: nick-fields/retry@v3
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          RENDER_API_URL: ${{ secrets.RENDER_API_URL }}
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 60
+          # 只运行 GitHub 任务
+          command: python main.py --type github
+      
+      # ---------------------------------------------------------
+      # Task 2: Grok Macro Brief (Independent Retry)
+      # ---------------------------------------------------------
+      - name: Run Grok Macro Brief (Retry on Failure)
+        if: always() # 即使上一步失败，这一步也要尝试运行
+        uses: nick-fields/retry@v3
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          RENDER_API_URL: ${{ secrets.RENDER_API_URL }}
+        with:
+          timeout_minutes: 10
+          max_attempts: 3
+          retry_wait_seconds: 60
+          # 只运行 Macro 任务
+          command: python main.py --type macro
