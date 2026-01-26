@@ -1,8 +1,8 @@
 name: Daily Smart Brief
 on:
   schedule:
-    # 北京时间 13:40 = UTC 05:40
-    - cron: '40 5 * * *'
+    # 北京时间 08:16 = UTC 00:16
+    - cron: '16 0 * * *'
   workflow_dispatch: # Allows manual trigger
 
 jobs:
