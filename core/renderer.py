@@ -3,6 +3,7 @@ import sys
 from jinja2 import Template
 from core.config import RENDER_API_URL
 
+
 class Renderer:
     def __init__(self, render_api_url=None):
         self.render_api_url = render_api_url or RENDER_API_URL

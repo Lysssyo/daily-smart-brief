@@ -1,5 +1,5 @@
-import os
 import sys
+
 
 def load_text_file(filepath):
     """读取文本文件并返回其内容。"""

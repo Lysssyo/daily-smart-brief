@@ -11,6 +11,7 @@ from core.utils import load_text_file
 from core.renderer import Renderer
 from pipelines.base import BasePipeline
 
+
 class GitHubBriefPipeline(BasePipeline):
     def __init__(self):
         self.renderer = Renderer()
@@ -138,7 +139,7 @@ class GitHubBriefPipeline(BasePipeline):
         # 步骤 1: 获取并预处理
         gh_data, hn_data = self.fetch_data()
         raw_input = self.preprocess_data(gh_data, hn_data)
-        
+
         # 步骤 2: LLM 生成
         json_str = self.analyze_with_gemini(raw_input)
 
@@ -153,7 +154,7 @@ class GitHubBriefPipeline(BasePipeline):
             clean_json_str = clean_json_str[7:]
         if clean_json_str.endswith("```"):
             clean_json_str = clean_json_str[:-3]
-        
+
         try:
             data = json.loads(clean_json_str.strip())
             print("JSON 解析成功")
@@ -165,7 +166,7 @@ class GitHubBriefPipeline(BasePipeline):
         # 步骤 4: 渲染与发布
         headline = self.config.get("subject", "Github Trending")
         sender_name = self.config.get("sender", "Gemini")
-        
+
         template_str = load_text_file(self.template_path)
-        
+
         self.renderer.render_and_publish(template_str, data, headline, sender=sender_name)

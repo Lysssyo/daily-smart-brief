@@ -13,6 +13,7 @@ if os.environ.get("USE_PROXY") == "true":
     os.environ["HTTPS_PROXY"] = proxy_url
     print(f"提示: 已开启代理 {proxy_url}")
 
+
 def get_env_variable(key, required=True):
     """获取环境变量，可选择是否强制要求存在。"""
     value = os.environ.get(key)
@@ -20,6 +21,7 @@ def get_env_variable(key, required=True):
         print(f"错误: 环境变量 '{key}' 未设置。")
         sys.exit(1)
     return value
+
 
 def load_app_settings():
     """从 app_config.json 加载应用设置。"""
@@ -34,9 +36,10 @@ def load_app_settings():
             "macro": {"subject": "What's happening around the world?", "sender": "Grok", "model": "grok-3"}
         }
 
+
 # API 密钥
-GEMINI_API_KEY = get_env_variable("GEMINI_API_KEY", required=False) # 如果只运行 macro 则不需要
-XAI_API_KEY = get_env_variable("XAI_API_KEY", required=False)       # 如果只运行 github 则不需要
+GEMINI_API_KEY = get_env_variable("GEMINI_API_KEY", required=False)  # 如果只运行 macro 则不需要
+XAI_API_KEY = get_env_variable("XAI_API_KEY", required=False)  # 如果只运行 github 则不需要
 RENDER_API_URL = get_env_variable("RENDER_API_URL")
 
 # 应用设置

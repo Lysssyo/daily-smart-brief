@@ -11,6 +11,7 @@ from core.utils import load_text_file
 from core.renderer import Renderer
 from pipelines.base import BasePipeline
 
+
 class MacroBriefPipeline(BasePipeline):
     def __init__(self):
         self.renderer = Renderer()
@@ -27,16 +28,16 @@ class MacroBriefPipeline(BasePipeline):
             sys.exit(1)
 
         client = Client(api_key=XAI_API_KEY)
-        
+
         # 使用配置中指定的模型
         model_name = self.config.get("model", "grok-3")
         chat = client.chat.create(
-            model=model_name, 
-            tools=[x_search()], 
+            model=model_name,
+            tools=[x_search()],
         )
-        
+
         prompt_content = load_text_file(self.prompt_path)
-        
+
         # 获取当前日期用于 Prompt
         current_date = datetime.now().strftime("%Y年%m月%d日")
         user_query_content = f"请执行上述 System Instruction，针对【{current_date}】这一天，进行全网搜索并生成 JSON 报表。"
@@ -58,7 +59,7 @@ class MacroBriefPipeline(BasePipeline):
         for response, chunk in chat.stream():
             if hasattr(chunk, 'tool_calls') and chunk.tool_calls:
                 for tool_call in chunk.tool_calls:
-                     print(f"\n[工具调用]: {tool_call.function.name} | 参数: {tool_call.function.arguments}")
+                    print(f"\n[工具调用]: {tool_call.function.name} | 参数: {tool_call.function.arguments}")
 
             if chunk.content:
                 print(chunk.content, end="", flush=True)
@@ -98,7 +99,7 @@ class MacroBriefPipeline(BasePipeline):
         # 步骤 3: 渲染与发布
         headline = self.config.get("subject", "What's happening around the world?")
         sender_name = self.config.get("sender", "Grok")
-        
+
         template_str = load_text_file(self.template_path)
 
         self.renderer.render_and_publish(template_str, data, headline, sender=sender_name)
