@@ -30,7 +30,7 @@ Please output the analysis result strictly in the following JSON format. Do NOT 
     {
       "name": "owner/repo",
       "url": "[https://github.com/](https://github.com/)...",
-      "stars": "Number of stars (e.g. '1.2k')",
+      "stars": "Number of stars (e.g. '1.2k')", // only output stars count,don't output 'today'
       "language": "Language (e.g. Rust)",
       "is_hot": true, // true if it is a top ranking item
       "author_origin": "Background of the author/team (e.g., 'From Vercel Team')",
@@ -75,7 +75,7 @@ Please output the analysis result strictly in the following JSON format. Do NOT 
     {
       "name": "block/goose",
       "url": "https://github.com/block/goose",
-      "stars": "320",
+      "stars": "320", // 只输出stars值，不输出其他字符
       "language": "Rust",
       "is_hot": true,
       "author_origin": "出自 Block Inc. (原 Square) 官方团队，金融科技巨头背书。",
