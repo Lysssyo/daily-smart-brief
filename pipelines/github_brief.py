@@ -118,7 +118,7 @@ class GitHubBriefPipeline(BasePipeline):
 
         client_genai = genai.Client(api_key=GEMINI_API_KEY)
         prompt_content = load_text_file(self.prompt_path)
-        model_name = self.config.get("model", "gemini-2.0-flash-exp")
+        model_name = self.config.get("model", "gemini-3.1-pro-preview")
 
         try:
             response = client_genai.models.generate_content(
